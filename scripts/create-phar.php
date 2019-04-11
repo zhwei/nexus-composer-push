@@ -1,7 +1,7 @@
 <?php
 // zhangwei@danke.com
 // The php.ini setting phar.readonly must be set to 0
-$pharFile = 'dist/nexus-push.phar';
+$pharFile = __DIR__ . '/../dist/nexus-push.phar';
 
 // clean up
 if (file_exists($pharFile)) {
@@ -18,10 +18,10 @@ $p = new Phar($pharFile);
 $p->buildFromDirectory(__DIR__ . '/../');
 
 // pointing main file which requires all classes
-$p->setDefaultStub('scripts/index.php', 'index.php');
+$p->setDefaultStub('scripts/index.php', 'scripts/index.php');
 
 // plus - compressing it into gzip
 $p->compress(Phar::GZ);
 
 
-echo "$pharFile successfully created\n";
+echo "nexus-push.phar successfully created\n";

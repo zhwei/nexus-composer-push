@@ -65,6 +65,7 @@ EOT
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $this->readComposerFile();
 
         $fileName = tempnam(sys_get_temp_dir(), 'nexus-push') . '.zip';
 
@@ -121,25 +122,25 @@ EOT
      */
     protected $composer = [];
 
-    protected function readComposerFile(OutputInterface $output)
+    protected function readComposerFile()
     {
         $path = getcwd() . '/composer.json';
         if (!is_file($path)) {
-            $this->fatal($output, 'Can not found file composer.json');
+            $this->fatal('Can not found file composer.json');
         }
 
         $content = file_get_contents($path);
-        $data = json_decode($content, JSON_OBJECT_AS_ARRAY | JSON_THROW_ON_ERROR);
+        $data = json_decode($content, JSON_OBJECT_AS_ARRAY);
         if (!is_array($data)) {
-            $this->fatal($output, 'composer.json content is not valid');
+            $this->fatal('composer.json content is not valid');
         }
 
         $this->composer = $data;
     }
 
-    protected function fatal(OutputInterface $output, $message)
+    protected function fatal($message)
     {
-        $output->writeln('<error>' . $message . '</error>');
+        $this->output->writeln('<error>' . $message . '</error>');
         exit(1);
     }
 
