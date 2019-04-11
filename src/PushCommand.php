@@ -354,7 +354,7 @@ EOT
      */
     private function getNexusExtra($parameter, $default = null)
     {
-        $extras = $this->composer['extra'];
+        $extras = $this->composer['extra'] ?? [];
 
         if (!empty($extras['nexus-push'][$parameter])) {
             return $extras['nexus-push'][$parameter];
