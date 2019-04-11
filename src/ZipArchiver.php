@@ -36,9 +36,9 @@ class ZipArchiver
         }
 
         if ($subDirectory) {
-            $io->write('[ZIP Archive] Archive into the subdirectory ' . $subDirectory);
+            $io->writeln('[ZIP Archive] Archive into the subdirectory ' . $subDirectory);
         } else {
-            $io->write('[ZIP Archive] Archive into root directory');
+            $io->writeln('[ZIP Archive] Archive into root directory');
         }
 
         $finder = new Finder();
@@ -90,7 +90,7 @@ class ZipArchiver
             $archive->addFile($fileInfo->getRealPath(), $zipPath);
         }
 
-        $io->write('Zip archive ' . $destination . ' done');
+        $io->writeln('Zip archive ' . $destination . ' done');
         $archive->close();
     }
 }

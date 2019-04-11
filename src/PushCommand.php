@@ -371,8 +371,31 @@ EOT
     {
         $optionalIgnore = $input->getOption('ignore-dirs');
         $composerIgnores = $this->getNexusExtra('ignore-dirs', []);
+        $gitAttrIgnores = $this->getGitAttributesExportIgnores();
 
-        $ignore = array_merge($composerIgnores, $optionalIgnore, ['vendor']);
+        $ignore = array_merge($composerIgnores, $optionalIgnore, ['vendor'], $gitAttrIgnores);
         return array_unique($ignore);
+    }
+
+    private function getGitAttributesExportIgnores()
+    {
+        $path = getcwd() . '/.gitattributes';
+        if (!is_file($path)) {
+            return [];
+        }
+
+        $contents = file_get_contents($path);
+        $lines = explode(PHP_EOL, $contents);
+        $ignores = [];
+        foreach ($lines as $line) {
+            if ($line = trim($line)) {
+                $diff = strlen($line) - 13;
+                if ($diff > 0 && strpos($line, 'export-ignore', $diff) !== false) {
+                    $ignores[] = trim(trim(explode(' ', $line)[0]), DIRECTORY_SEPARATOR);
+                }
+            }
+        }
+
+        return $ignores;
     }
 }
