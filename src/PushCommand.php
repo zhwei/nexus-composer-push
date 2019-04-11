@@ -106,7 +106,7 @@ EOT
                 $input->getOption('password')
             );
 
-            $output->write('Archive correctly pushed to the Nexus server');
+            $output->writeln('Archive correctly pushed to the Nexus server');
         } finally {
             $output->write(
                 'Remove file ' . $fileName,
