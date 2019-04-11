@@ -5,8 +5,7 @@ Composer repository hosted with [nexus-repository-composer](https://github.com/s
 
 ## Installation
 
-1. Download nexus-push.phar.gz from dist directory.
-2. unzip to nexus-push.phar
+Download `nexus-push.phar` file from [release page](https://github.com/zhwei/nexus-composer-push/releases)
 
 ## Usage
 Many of the options are optional since they can be added directly to the `composer.json` file.
