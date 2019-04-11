@@ -3,8 +3,8 @@
 
 namespace Elendev\NexusComposerPush;
 
-use Composer\IO\IOInterface;
-use Composer\IO\NullIO;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -20,7 +20,7 @@ class ZipArchiver
      *               archived. If null, put at the root of the directory.
      * @param array $ignorePatterns
      *
-     * @param \Composer\IO\IOInterface|null $io
+     * @param OutputInterface|null $io
      *
      * @throws \Exception
      */
@@ -32,7 +32,7 @@ class ZipArchiver
         $io = null
     ) {
         if (empty($io)) {
-            $io = new NullIO();
+            $io = new NullOutput();
         }
 
         if ($subDirectory) {
@@ -55,12 +55,12 @@ class ZipArchiver
         $io->write(
             'Create ZIP file ' . $destination,
             true,
-            IOInterface::VERY_VERBOSE
+            OutputInterface::VERBOSITY_VERY_VERBOSE
       );
 
         if (!$archive->open($destination, \ZipArchive::CREATE)) {
-            $io->writeError(
-                'Impossible to create ZIP file ' . $destination,
+            $io->write(
+                '<error>Impossible to create ZIP file ' . $destination . '</error>',
                 true
           );
             throw new \Exception('Impossible to create the file ' . $destination);
@@ -85,7 +85,7 @@ class ZipArchiver
             $io->write(
                 'Zip file ' . $fileInfo->getPath() . ' to ' . $zipPath,
                 true,
-                IOInterface::VERY_VERBOSE
+                OutputInterface::VERBOSITY_VERY_VERBOSE
           );
             $archive->addFile($fileInfo->getRealPath(), $zipPath);
         }
